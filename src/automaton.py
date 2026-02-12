@@ -1,41 +1,63 @@
 import numpy as np
 from src.grid import Grid
-from src.rules import Rules
 
 
 class CellularAutomaton:
-    """
-    Main simulation controller.
-    """
-
     def __init__(self, rows, cols):
+        self.rows = rows
+        self.cols = cols
         self.grid = Grid(rows, cols)
 
     def randomize(self, density=0.3):
         """
-        Randomly populate grid.
+        Randomly initialize the grid.
         """
         self.grid.randomize(density)
 
     def step(self):
         """
-        Advance one generation.
+        Advance simulation by one generation
+        using Conway's Game of Life rules.
         """
-        current = self.grid.get_grid()
-        new_state = Rules.apply_rules(current)
-        self.grid.set_grid(new_state)
+        new_grid = self.grid.copy()
 
-    def run(self, steps=10):
+        for i in range(self.rows):
+            for j in range(self.cols):
+
+                neighbors = self.grid.get_neighbors(i, j)
+                cell = self.grid.grid[i, j]
+
+                # Game of Life rules
+                if cell == 1:
+                    if neighbors < 2 or neighbors > 3:
+                        new_grid.grid[i, j] = 0
+                else:
+                    if neighbors == 3:
+                        new_grid.grid[i, j] = 1
+
+        self.grid = new_grid
+
+    def run(self, steps):
         """
-        Run simulation for N steps.
+        Run the simulation for multiple generations.
         """
-        for i in range(steps):
-            print(f"\nGeneration {i+1}:\n")
+        for _ in range(steps):
             self.step()
-            print(self.grid.get_grid())
 
     def get_grid(self):
-        return self.grid.get_grid()
+        """
+        Return current grid state.
+        """
+        return self.grid.grid   # <-- FIXED
 
     def count_alive(self):
-        return np.sum(self.grid.get_grid())
+        """
+        Count total live cells.
+        """
+        return np.sum(self.grid.grid)
+    def run(self, generations):
+        """
+        Run the automaton for a number of generations.
+        """
+        for _ in range(generations):
+            self.step()

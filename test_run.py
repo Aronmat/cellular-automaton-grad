@@ -1,7 +1,11 @@
+import numpy as np
+
 from src.automaton import CellularAutomaton
 
+# Create automaton
 ca = CellularAutomaton(10, 10)
 
+# Randomize grid
 ca.randomize(0.3)
 
 print("Initial Grid:\n")
@@ -9,7 +13,11 @@ print(ca.get_grid())
 
 print("\nRunning Simulation...\n")
 
-ca.run(5)
+# Run 5 generations
+ca.run(5)  # make sure run() is added to automaton.py
+
+print("\nFinal Grid:\n")
+print(ca.get_grid())
 
 print("\nFinal Alive Cells:", ca.count_alive())
 
@@ -17,13 +25,10 @@ print("\nFinal Alive Cells:", ca.count_alive())
 from src.grid import Grid
 
 grid = Grid(10, 10)
+grid.randomize(0.3)  # you can randomize it too
 
-print(grid.get_grid())
-print("Alive cells:", grid.count_alive())
-# Rules Test
-from src.rules import Rules
+print("\nGrid Test:\n")
+print(grid.grid)  # get_grid() no longer needed if we use 'grid.grid'
 
-print("\nNext Generation:\n")
-
-next_grid = Rules.apply_rules(grid.get_grid())
-print(next_grid)
+# Count alive cells for raw grid
+print("Alive cells:", np.sum(grid.grid))

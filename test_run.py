@@ -1,10 +1,18 @@
 from src.automaton import CellularAutomaton
 
 ca = CellularAutomaton(10, 10)
+
 ca.randomize(0.3)
 
 print("Initial Grid:\n")
 print(ca.get_grid())
+
+print("\nRunning Simulation...\n")
+
+ca.run(5)
+
+print("\nFinal Alive Cells:", ca.count_alive())
+
 # Grid Test
 from src.grid import Grid
 

@@ -26,3 +26,7 @@
 - Enabled cell editing via mouse clicks
 - Integrated visualizer with automaton engine
 - Added pause/resume via spacebar
+- Fixed state loading size mismatch
+- Added auto-centering for small patterns
+- Enabled preset pattern demos (glider)
+- Added menu for inital starts option random intial and custom

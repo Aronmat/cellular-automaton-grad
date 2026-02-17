@@ -90,3 +90,49 @@ class CellularAutomaton:
         for row, col in live_cells:
             if 0 <= row < self.rows and 0 <= col < self.cols:
                 self.grid.grid[row, col] = 1
+            
+       # --- New Methods ---
+    def save_state(self, filename):
+        """Save the current grid to a .npy file."""
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        np.save(filename, self.grid.grid)
+        print(f"Grid saved to {filename}")
+
+    def load_state(self, filename):
+        """Load a grid from a .npy file."""
+        if not os.path.exists(filename):
+            raise FileNotFoundError(f"File {filename} not found.")
+        
+        loaded_grid = np.load(filename)
+
+        if loaded_grid.shape != (self.rows, self.cols):
+            raise ValueError(
+                f"State shape {loaded_grid.shape} does not match automaton size ({self.rows}, {self.cols})"
+            )
+
+        self.grid.grid = loaded_grid
+        print(f"Grid loaded from {filename}")
+        
+    def save_state(self, filename):
+        # Ensure .npy
+        if not filename.endswith(".npy"):
+            filename += ".npy"
+
+        # Default folder
+        folder = os.path.dirname(filename)
+        if folder == "":
+            folder = "states"
+            filename = os.path.join(folder, filename)
+
+        os.makedirs(folder, exist_ok=True)
+        np.save(filename, self.grid.grid)
+        print(f"Saved state to {filename}")
+
+    def load_state(self, filename):
+        data = np.load(filename)
+        if data.shape != (self.rows, self.cols):
+            raise ValueError(
+                f"State shape {data.shape} does not match automaton size ({self.rows}, {self.cols})"
+            )
+        self.grid.grid = data.copy()
+        print(f"Loaded state from {filename}")

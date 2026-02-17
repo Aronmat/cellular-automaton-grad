@@ -25,3 +25,4 @@
 - Added pause/resume with spacebar
 - Enabled cell editing via mouse clicks
 - Integrated visualizer with automaton engine
+- Added pause/resume via spacebar

@@ -17,3 +17,8 @@
 - Implemented CellularAutomaton.run() for multiple-step simulation
 - Verified randomization and alive cell count functionality 
 - updated imports and resolved module errors (from src.automaton import  CellularAutomaton)
+## Feb 17, 2026 – Rule Customization & Visualization
+- Added rules.json for customizable automaton rules
+- Integrated JSON rule loading into automaton engine
+- Implemented matplotlib live animation
+- Added pause/resume via keyboard input

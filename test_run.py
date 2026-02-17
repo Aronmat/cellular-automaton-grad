@@ -1,34 +1,40 @@
-import numpy as np
-
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 from src.automaton import CellularAutomaton
 
 # Create automaton
-ca = CellularAutomaton(10, 10)
-
-# Randomize grid
+ca = CellularAutomaton(30, 30)
 ca.randomize(0.3)
 
-print("Initial Grid:\n")
-print(ca.get_grid())
+# Plot setup
+fig, ax = plt.subplots()
+img = ax.imshow(ca.get_grid(), cmap="Greys")
 
-print("\nRunning Simulation...\n")
+paused = False
 
-# Run 5 generations
-ca.run(5)  # make sure run() is added to automaton.py
 
-print("\nFinal Grid:\n")
-print(ca.get_grid())
+def update(frame):
+    global paused
 
-print("\nFinal Alive Cells:", ca.count_alive())
+    if not paused:
+        ca.step()
+        img.set_data(ca.get_grid())
 
-# Grid Test
-from src.grid import Grid
+    return [img]
 
-grid = Grid(10, 10)
-grid.randomize(0.3)  # you can randomize it too
 
-print("\nGrid Test:\n")
-print(grid.grid)  # get_grid() no longer needed if we use 'grid.grid'
+def on_key(event):
+    global paused
 
-# Count alive cells for raw grid
-print("Alive cells:", np.sum(grid.grid))
+    if event.key == " ":
+        paused = not paused
+        print("Paused" if paused else "Resumed")
+
+
+fig.canvas.mpl_connect("key_press_event", on_key)
+
+ani = FuncAnimation(fig, update, frames=200, interval=200)
+
+plt.title("Cellular Automaton")
+plt.show()
+

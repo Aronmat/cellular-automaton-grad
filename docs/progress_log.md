@@ -32,3 +32,4 @@
 - Added menu for inital starts option random intial and custom
 - Implemented save/load functionality for automaton states
 - Integrated pause/resume during animation
+- Added rule customization into the menu 

@@ -1,6 +1,7 @@
 import numpy as np
 import json
 from src.grid import Grid
+import os
 
 
 class CellularAutomaton:
@@ -46,3 +47,37 @@ class CellularAutomaton:
 
     def count_alive(self):
         return np.sum(self.grid.grid)
+    
+    def load_state(self, file_path, position="center"):
+        """
+        Load a saved grid state from a .npy file.
+        Small states can be embedded into the larger grid.
+        """
+
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"State file not found: {file_path}")
+
+        data = np.load(file_path)
+
+        # Create empty grid
+        new_grid = np.zeros((self.rows, self.cols), dtype=int)
+
+        state_rows, state_cols = data.shape
+
+        if state_rows > self.rows or state_cols > self.cols:
+            raise ValueError("State is larger than automaton grid.")
+
+        # Placement logic
+        if position == "center":
+            start_row = (self.rows - state_rows) // 2
+            start_col = (self.cols - state_cols) // 2
+        else:
+            start_row, start_col = position  # tuple (row, col)
+
+        # Insert state
+        new_grid[
+            start_row:start_row + state_rows,
+            start_col:start_col + state_cols
+        ] = data
+
+        self.grid.grid = new_grid

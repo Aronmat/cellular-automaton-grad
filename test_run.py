@@ -4,7 +4,8 @@ from src.automaton import CellularAutomaton
 
 # Create automaton
 ca = CellularAutomaton(30, 30)
-ca.randomize(0.3)
+ca.load_state("states/glider.npy")
+
 
 # Plot setup
 fig, ax = plt.subplots()
@@ -38,16 +39,20 @@ def on_click(event):
     if event.inaxes != ax:
         return
 
+    if event.xdata is None or event.ydata is None:
+        return
+
     x = int(event.ydata)
     y = int(event.xdata)
 
     grid = ca.grid.grid
 
-    # Toggle cell
-    grid[x, y] = 0 if grid[x, y] == 1 else 1
+    # Prevent out-of-bounds clicks
+    if 0 <= x < ca.rows and 0 <= y < ca.cols:
+        grid[x, y] = 0 if grid[x, y] == 1 else 1
 
-    img.set_data(grid)
-    plt.draw()
+        img.set_data(grid)
+        plt.draw()
 
 
 # Event bindings

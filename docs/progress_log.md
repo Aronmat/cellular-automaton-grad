@@ -5,7 +5,6 @@
 - Added grid update rules
 - Created test_run.py
 - Uploaded project to GitHub
-## Feb 10, 2026 – Grid System
 - Implemented Grid class
 - Added random initialization
 - Added alive cell counter
@@ -22,3 +21,7 @@
 - Integrated JSON rule loading into automaton engine
 - Implemented matplotlib live animation
 - Added pause/resume via keyboard input
+- Implemented matplotlib animation
+- Added pause/resume with spacebar
+- Enabled cell editing via mouse clicks
+- Integrated visualizer with automaton engine

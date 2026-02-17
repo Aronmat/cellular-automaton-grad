@@ -81,3 +81,12 @@ class CellularAutomaton:
         ] = data
 
         self.grid.grid = new_grid
+    def set_initial_state(self, live_cells):
+        """
+        live_cells: list of (row, col) tuples to set as alive
+        """
+        # Reset grid first
+        self.grid.grid[:] = 0
+        for row, col in live_cells:
+            if 0 <= row < self.rows and 0 <= col < self.cols:
+                self.grid.grid[row, col] = 1
